@@ -1,0 +1,49 @@
+{%extends 'base.html'%}
+
+
+{%block main_block%}
+
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row md:justify-between md:items-center">
+        <h1 class="text-2xl font-bold my-4">Shopping Cart</h1>
+        <a href="{% url 'place-order' %}" class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded cursor-pointer">
+            Checkout
+        </a>
+    </div>
+    <div class="mt-8">
+        {% for bi in basket_items %}
+        <div class="flex flex-col md:flex-row border-b border-gray-400 py-4">
+            <div class="flex-shrink-0">
+                <img src="{{bi.Product_object.picture.url}}" alt="Product image" class="w-32 h-32 object-cover">
+            </div>
+            <div class="flex justify-between w-full">
+                <div class="mt-4 md:mt-0 md:ml-6">
+                    <h2 class="text-lg font-bold">{{bi.Product_object.title}}</h2>
+                    <p class="mt-2 text-gray-600 mb-3">{{bi.Product_object.description}}</p>
+                    <p class="text-xs">Quantity: {{bi.quantity}}</p>
+                    <p class="text-xs">Size: {{bi.size_object.name}}</p>
+                    <p class="text-xs">Price: ₹{{bi.Product_object.price}}</p>
+                </div>
+                <div class="flex items-center justify-between space-x-4">
+                    <span class="ml-auto font-bold">₹{{bi.item_total}}</span>
+                    <!-- Remove button -->
+                    <a 
+                    href="{% url 'cart-item-remove' bi.id %}"
+                    class="text-gray-600 hover:text-red-600 p-1 rounded-full cursor-pointer" aria-label="Remove item">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+    <div class="flex justify-end items-center mt-8">
+        <span class="text-gray-600 mr-4">Subtotal:</span>
+        <span class="text-xl font-bold">₹{{basket_total}}</span>
+    </div>
+</div>
+
+{%endblock%}

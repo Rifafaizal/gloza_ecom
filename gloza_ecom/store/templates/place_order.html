@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block main_block %}
+
+<form method="post" class="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32 pb-12">
+    {% csrf_token %}
+    <div class="px-4 pt-8">
+        <p class="text-xl font-medium">Order Summary</p>
+        <p class="text-gray-400">Check your items. And select a suitable shipping method.</p>
+        <div class="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
+            {% for item in items %}
+            <div class="flex flex-col rounded-lg bg-white sm:flex-row">
+                <img class="m-2 h-24 w-28 rounded-md border object-cover object-center"
+                    src="{{item.Product_object.picture.url}}"
+                    alt="" />
+                <div class="flex w-full flex-col px-4 py-4">
+                    <span class="font-semibold">{{item.Product_object.title}}</span>
+                    <span class="float-right text-gray-400">Price: {{item.Product_object.price}}</span>
+                    <p class="text-lg font-bold">${{item.item_total}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <p class="mt-8 text-lg font-medium">Payment Methods</p>
+        <div class="mt-5 grid gap-6">
+            <div class="relative">
+                <input class="peer hidden" id="cash" type="radio" name="payment" value="COD" checked/>
+                <span
+                    class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                <label
+                    class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                    for="cash">
+                    <img class="w-14 object-contain" src="/images/naorrAeygcJzX0SyNI4Y0.png" alt="" />
+                    <div class="ml-5">
+                        <span class="mt-2 font-semibold">Cash on delivery</span>
+                    </div>
+                </label>
+            </div>
+            <div class="relative">
+                <input class="peer hidden" id="pay-on-delivery" type="radio" name="payment" value="ONLINE" />
+                <span
+                    class="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
+                <label
+                    class="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
+                    for="pay-on-delivery">
+                    <img class="w-14 object-contain" src="/images/oG8xsl3xsOkwkMsrLGKM4.png" alt="" />
+                    <div class="ml-5">
+                        <span class="mt-2 font-semibold">Online Payment</span>
+                    </div>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
+        <p class="text-xl font-medium">Delivery Details</p>
+        <p class="text-gray-400">Complete your order by providing your payment details.</p>
+        <div class="">
+            <label for="email" class="mt-4 mb-2 block text-sm font-medium">Address</label>
+            <div class="relative">
+                <input type="text" id="address" name="address"
+                    class="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Enter you delivery address" />
+            </div>
+            <label for="email" class="mt-4 mb-2 block text-sm font-medium">Phone</label>
+            <div class="relative">
+                <input type="text" id="phone" name="phone"
+                    class="w-full rounded-md border border-gray-200 px-4 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
+                    placeholder="Enter your phone number" />
+            </div>
+
+            <!-- Total -->
+            <div class="mt-6 border-t border-b py-2">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm font-medium text-gray-900">Subtotal</p>
+                    <p class="font-semibold text-gray-900">₹{{total_price}}</p>
+                </div>
+            </div>
+            <div class="mt-6 flex items-center justify-between">
+                <p class="text-sm font-medium text-gray-900">Total</p>
+                <p class="text-2xl font-semibold text-gray-900">₹{{total_price}}</p>
+            </div>
+        </div>
+        <button type="submit" class="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+    </div>
+</form>
+
+
+
+{% endblock %}

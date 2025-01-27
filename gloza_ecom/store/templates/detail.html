@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{%block main_block%}
+
+<div class="w-3/4 mt-10 mx-auto mb-10">
+    <article class="flex bg-white transition hover:shadow-xl">
+        <div class="rotate-180 p-2 [writing-mode:_vertical-lr]">
+          <time
+            datetime="2022-10-10"
+            class="flex items-center justify-between gap-4 text-xs font-bold uppercase text-gray-900"
+          >
+            <span>2022</span>
+            <span class="w-px flex-1 bg-gray-900/10"></span>
+            <span>Oct 10</span>
+          </time>
+        </div>
+      
+        <div class="hidden sm:block sm:basis-56">
+        {%if data.picture%}
+        <img
+        alt=""
+        src="{{data.picture.url}}"
+        class="aspect-square w-full object-cover"
+        style="height: 300px;"
+      />
+
+        {%else%}
+        <img
+        alt=""
+        src="https://images.unsplash.com/photo-1609557927087-f9cf8e88de18?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80"
+        class="aspect-square h-full w-full object-cover"
+      />
+
+        {%endif%}
+
+        </div>
+      
+        <div class="flex flex-1 flex-col justify-between">
+          <div class="border-s border-gray-900/10 p-4 sm:border-l-transparent sm:p-6">
+            <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">{{data.category_object}}</p>
+            <a href="#">
+              <h3 class="font-bold uppercase text-gray-900">
+                {{data.title}}
+              </h3>
+            </a>
+           
+            <p class="mt-2 line-clamp-3 text-sm/relaxed text-gray-700">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae dolores, possimus
+              pariatur animi temporibus nesciunt praesentium dolore sed nulla ipsum eveniet corporis
+              quidem, mollitia itaque minus soluta, voluptates neque explicabo tempora nisi culpa eius
+              atque dignissimos. Molestias explicabo corporis voluptatem?
+            </p>
+
+
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-2 mt-5">Color:</h3>
+                <div class="flex space-x-2">
+                    <button
+                        class="w-8 h-8 bg-orange-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-300"></button>
+                    <button
+                        class="w-8 h-8 bg-red-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
+                    <button
+                        class="w-8 h-8 bg-gray-800  rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"></button>
+                </div>
+            </div>
+
+            <form action="{%url 'add-to-cart' data.id%}" method="post">
+              {% csrf_token %}
+              <div class="mb-4">
+                <h3 class="text-lg font-semibold mb-2">Select Size:</h3>
+                <div class="flex items-center mt-2">
+                    {% for size in data.size_object.all %}
+                    <label class="bg-gray-200 light:bg-gray-600 text-gray-700 light:text-white py-2 px-4 rounded-full font-bold mr-2 hover:bg-gray-300 light:hover:bg-gray-600 cursor-pointer border border-gray-100 bg-grey-200 p-4 text-sm font-medium shadow-sm hover:border-gray-200 has-[:checked]:border-blue-500 has-[:checked]:ring-1 has-[:checked]:ring-blue-500"><input class="sr-only" type="radio" value="{{size}}" name="size">{{size}}</label>
+                    {% endfor %}
+                </div>
+              </div>
+      
+              <div class="mb-6">
+                <label for="quantity" class="block text-sm font-medium text-gray-700 mb-1">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" min="1" value="1"
+                              class="w-12 text-center rounded-md border-gray-300  shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+              </div>
+              <div class="flex space-x-4 mb-6">
+                <button
+                    type="submit"
+                    class="bg-pink-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+                    Add to Cart
+                </button>
+                <button
+                    class="bg-gray-200 flex gap-2 items-center  text-gray-800 px-6 py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
+                    </svg>
+                    Wishlist
+                </button>
+              </div>
+            </form>
+  
+
+            <!-- <fieldset class="flex flex-wrap gap-3 mt-6">
+                <legend class="sr-only">Color</legend>
+              
+                <label
+                  for="ColorBlack"
+                  class="block size-8 cursor-pointer rounded-full bg-orange-300 shadow-sm has-[:checked]:ring-2 has-[:checked]:ring-black has-[:checked]:ring-offset-2"
+                >
+                  <input
+                    type="radio"
+                    name="ColorOption"
+                    value="ColorBlack"
+                    id="ColorBlack"
+                    class="sr-only"
+                    checked
+                  />
+              
+                  <span class="sr-only"> Texas Tea </span>
+                </label>
+              
+                <label
+                  for="ColorRed"
+                  class="block size-8 cursor-pointer rounded-full bg-red-500 shadow-sm has-[:checked]:ring-2 has-[:checked]:ring-red-500 has-[:checked]:ring-offset-2"
+                >
+                  <input type="radio" name="ColorOption" value="ColorRed" id="ColorRed" class="sr-only" />
+              
+                  <span class="sr-only">Fiesta Red</span>
+                </label>
+
+                <label
+                  for="ColorGold"
+                  class="block size-8 cursor-pointer rounded-full bg-gray-800 shadow-sm has-[:checked]:ring-2 has-[:checked]:ring-amber-500 has-[:checked]:ring-offset-2"
+                >
+                  <input type="radio" name="ColorOption" value="ColorGold" id="ColorGold" class="sr-only" />
+              
+                  <span class="sr-only">Goldtop</span>
+                </label>
+              
+                
+              
+              
+              </fieldset> -->
+
+
+              <!--
+  This component uses @tailwindcss/forms
+
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
+
+  plugins: [require('@tailwindcss/forms')]
+
+  @layer components {
+    .no-spinner {
+      -moz-appearance: textfield;
+    }
+
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+-->
+  <!--
+  This component uses @tailwindcss/forms
+
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
+
+  plugins: [require('@tailwindcss/forms')]
+
+  @layer components {
+    .no-spinner {
+      -moz-appearance: textfield;
+    }
+
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+-->
+
+<!--
+  This component uses @tailwindcss/forms
+
+  yarn add @tailwindcss/forms
+  npm install @tailwindcss/forms
+
+  plugins: [require('@tailwindcss/forms')]
+
+  @layer components {
+    .no-spinner {
+      -moz-appearance: textfield;
+    }
+
+    .no-spinner::-webkit-outer-spin-button,
+    .no-spinner::-webkit-inner-spin-button {
+      margin: 0;
+      -webkit-appearance: none;
+    }
+  }
+-->
+  
+
+
+  
+
+
+          </div>
+        </div>
+      </article>
+      
+
+</div>
+    
+{%endblock%}
